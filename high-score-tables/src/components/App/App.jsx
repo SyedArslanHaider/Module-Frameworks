@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const App = () => {
   const [isAscending, setIsAscending] = useState(false);
-
+  const allScore = scores.flatMap(({scores})=>scores);
   const toggleSortOrder = () => {
     setIsAscending(!isAscending);
   };
@@ -17,9 +17,13 @@ const App = () => {
         Sort {isAscending ? "Descending" : "Ascending"}
         </button>
     </header>
+      <HighScoreTable 
+        country="World-Wide" 
+        scores={[...allScore].sort((a, b) => isAscending ? a.s - b.s : b.s - a.s)} 
+      />
     {scores.sort((a,b)=> a.name.localeCompare(b.name))
     .map(({ name, scores }, index) => (
-      <HighScoreTable country={name} scores={scores.sort((a, b) => isAscending ? a.s - b.s : b.s - a.s)}  key={index} />
+      <HighScoreTable country={name} scores={[...scores].sort((a, b) => isAscending ? a.s - b.s : b.s - a.s)}  key={index} />
     ))}
   </div>
 );
